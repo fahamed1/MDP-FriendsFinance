@@ -24,3 +24,8 @@ struct UploadReceiptImageView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.white.opacity(0.3))
+                }
+            }
+        }
+    }
+}

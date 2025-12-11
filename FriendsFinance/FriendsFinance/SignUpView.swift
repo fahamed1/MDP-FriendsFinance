@@ -39,7 +39,7 @@ struct SignUpView: View {
                 
                 Spacer()
                 
-                Image("Logo")
+                Image("FFLogo")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 140, height: 140)

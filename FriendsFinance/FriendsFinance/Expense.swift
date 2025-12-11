@@ -71,7 +71,7 @@ struct HomeView: View {
                 
                 // MARK: ADD EXPENSE BUTTON
                 
-                NavigationLink(destination: UploadReceiptView()) {
+                NavigationLink(destination: UploadReceiptImageView()) {
                     Text("+ Add Expense")
                         .font(.headline)
                         .foregroundColor(Color.white)
