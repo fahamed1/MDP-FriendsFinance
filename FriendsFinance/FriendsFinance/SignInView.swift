@@ -108,6 +108,11 @@ struct SignInView: View {
                         .font(.system(size: 16))
                         .padding(.top, 20)
                 }
+                
+                NavigationLink(destination: SignUpView()) {
+                    Text("Don't have an account? Sign Up")
+                        .foregroundColor(.white)
+                }
 
                 Spacer()
             }
@@ -124,6 +129,7 @@ struct SignInView: View {
             }
         }
         .onAppear(perform: checkFaceID)
+        .navigationBarBackButtonHidden(true)
     }
 
     // MARK: - FUNCTIONS
