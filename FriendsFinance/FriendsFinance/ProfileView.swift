@@ -2,9 +2,8 @@ import SwiftUI
 import PhotosUI
 
 struct ProfileView: View {
-    @State private var name = "Meow Meow"
-    @State private var email = "meow@gmail.com"
-    @State private var profileImage: UIImage? = UIImage(named: "cat") // default
+    @EnvironmentObject var userVM: UserViewModel
+
     @State private var showEditProfile = false
     @State private var showImagePicker = false
     @State private var selectedImage: PhotosPickerItem?
@@ -16,32 +15,21 @@ struct ProfileView: View {
 
             VStack(spacing: 20) {
 
-                // Title + Divider
-                VStack(spacing: 8) {
-                    Text("Edit Profile")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-
-                    Rectangle()
-                        .frame(height: 1)
-                        .foregroundColor(.white.opacity(0.4))
-                        .padding(.horizontal)
-                }
-                .padding(.top, 30)
+                Text("Profile")
+                    .font(.title2)
+                    .foregroundColor(.white)
+                    .padding(.top, 20)
 
                 Spacer()
 
                 // Profile Image
-                Button(action: { showImagePicker = true }) {
-                    if let img = profileImage {
+                Button { showImagePicker = true } label: {
+                    if let img = userVM.profileImage {
                         Image(uiImage: img)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 160, height: 160)
                             .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                            .shadow(radius: 5)
                     } else {
                         Circle()
                             .fill(Color.white.opacity(0.3))
@@ -53,43 +41,27 @@ struct ProfileView: View {
                             )
                     }
                 }
-                .photosPicker(isPresented: $showImagePicker, selection: $selectedImage)
-                .onChange(of: selectedImage) {
-                    Task {
-                        if let data = try? await selectedImage?.loadTransferable(type: Data.self),
-                           let uiImage = UIImage(data: data) {
-                            profileImage = uiImage
-                        }
-                    }
-                }
 
-                // Name + Email
-                VStack(spacing: 6) {
-                    Text("Name: \(name)")
-                        .foregroundColor(.white)
-                        .font(.title3)
+                Text("Name: \(userVM.name)")
+                    .foregroundColor(.white)
+                    .font(.title3)
 
-                    Text("Email: \(email)")
-                        .foregroundColor(.white.opacity(0.9))
-                }
+                Text("Email: \(userVM.email)")
+                    .foregroundColor(.white.opacity(0.9))
 
-                // Edit Profile Button
-                Button(action: { showEditProfile = true }) {
-                    Text("Edit Profile")
-                        .foregroundColor(.black)
-                        .padding()
-                        .frame(width: 150)
-                        .background(Color.white.opacity(0.8))
-                        .cornerRadius(10)
+                Button("Edit Profile") {
+                    showEditProfile = true
                 }
-                .padding(.top, 10)
+                .foregroundColor(.black)
+                .padding()
+                .background(.white.opacity(0.8))
+                .cornerRadius(10)
 
                 Spacer()
-                Spacer(minLength: 40)
             }
         }
         .sheet(isPresented: $showEditProfile) {
-            EditProfileView(name: $name, email: $email)
+            EditProfileView(name: $userVM.name, email: $userVM.email)
         }
     }
 }
@@ -99,6 +71,7 @@ struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             ProfileView()
+                .environmentObject(UserViewModel())
         }
     }
 }

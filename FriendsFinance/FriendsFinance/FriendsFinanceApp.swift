@@ -13,7 +13,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct FriendsFinanceApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+    @StateObject var userVM = UserViewModel()
     var body: some Scene {
         WindowGroup {
             NavigationStack {
