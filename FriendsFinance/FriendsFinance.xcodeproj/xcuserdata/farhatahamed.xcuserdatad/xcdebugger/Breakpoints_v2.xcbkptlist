@@ -34,6 +34,52 @@
             endingLineNumber = "5"
             landmarkName = "SignUpView"
             landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "E0B56C0E-20DB-4C15-829B-F49B9E14BD1B - dd308a63bb4e1fb4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FriendsFinance.SignUpView.init() -&gt; FriendsFinance.SignUpView"
+                  moduleName = "FriendsFinance.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/farhatahamed/Documents/GitHub/MDP-FriendsFinance/FriendsFinance/FriendsFinance/SignUpView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "6"
+                  endingLineNumber = "6">
+               </Location>
+               <Location
+                  uuid = "E0B56C0E-20DB-4C15-829B-F49B9E14BD1B - 329ed097315a858f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FriendsFinance.SignUpView.init(dismiss: SwiftUI.Environment&lt;SwiftUI.DismissAction&gt;) -&gt; FriendsFinance.SignUpView"
+                  moduleName = "FriendsFinance.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/farhatahamed/Documents/GitHub/MDP-FriendsFinance/FriendsFinance/FriendsFinance/SignUpView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "8"
+                  endingLineNumber = "8">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6EBC4267-38D3-4C3A-BC61-059F5611D085"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FriendsFinance/FriendsFinanceApp.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "11"
+            endingLineNumber = "11"
+            landmarkName = "AppDelegate"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

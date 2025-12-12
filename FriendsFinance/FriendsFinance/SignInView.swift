@@ -88,19 +88,6 @@ struct SignInView: View {
                         .padding(.top, 10)
                     }
                 }
-
-//                // Sign In Button
-//                Button {
-//                    // Later: Add Firebase Sign In
-//                    print("Sign In Pressed")
-//                } label: {
-//                    Text("SIGN IN")
-//                        .font(.system(size: 18, weight: .semibold))
-//                        .foregroundColor(.white)
-//                        .frame(width: 200, height: 50)
-//                        .background(Color(red: 0.35, green: 0.40, blue: 0.45))
-//                        .cornerRadius(25)
-//                }
                 
                 Button(action: {
                     signIn()

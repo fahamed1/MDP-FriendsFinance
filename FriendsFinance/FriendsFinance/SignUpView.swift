@@ -54,11 +54,11 @@ struct SignUpView: View {
                 
                 VStack(spacing: 16) {
                     
-//                    TextField("Name", text: $name)
-//                        .padding()
-//                        .background(Color.white)
-//                        .cornerRadius(14)
-//                        .textInputAutocapitalization(.never)
+                    TextField("Name", text: $name)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(14)
+                        .textInputAutocapitalization(.never)
                     
                     TextField("Email Address", text: $email)
                         .padding()
@@ -73,22 +73,6 @@ struct SignUpView: View {
                 }
                 .padding(.horizontal, 40)
                 
-//                Button(action: {
-//                    // TODO: Handle sign up logic
-//                    print("Signing up...")
-//                }) {
-//                    HStack {
-//                        Spacer()
-//                        Text("Create Account")
-//                            .font(.system(size: 18, weight: .semibold))
-//                            .foregroundColor(.white)
-//                            .frame(width: 200, height: 50)
-//                            .background(Color(red: 0.35, green: 0.40, blue: 0.45))
-//                            .cornerRadius(25)
-//                        Spacer()
-//                    }
-//    
-//                }
                 Button(action: {
                     createAccount()
                 }) {
@@ -104,6 +88,13 @@ struct SignUpView: View {
                     }
                 }
                 .padding(.top, 10)
+                
+                if showError {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
                 
                 Spacer()
             }
