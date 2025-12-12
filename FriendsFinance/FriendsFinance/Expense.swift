@@ -17,8 +17,8 @@ struct HomeView: View {
     
     // MOCK DATA — replace with Firebase later
     @State private var expenses = [
-        Expense(title: "McDonald's", payer: "Farhat", youOwe: 8.12, date: "Dec 8", imageName: "receipt1"),
-        Expense(title: "Starbucks", payer: "Mehera", youOwe: -4.50, date: "Dec 6", imageName: "receipt2"),
+        Expense(title: "Halal Guys", payer: "Farhat", youOwe: 8.12, date: "Dec 8", imageName: "receipt1"),
+        Expense(title: "Hot Peppers", payer: "Mehera", youOwe: -4.50, date: "Dec 6", imageName: "receipt2"),
         Expense(title: "Chipotle", payer: "Mehera", youOwe: 12.33, date: "Dec 3", imageName: "receipt3")
     ]
     
