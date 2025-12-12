@@ -13,6 +13,8 @@ struct SignInView: View {
     @State private var faceIDAvailable = false
     @State private var showError = false
     @State private var errorMessage = ""
+    
+    @State private var isLoggedIn = false
 
     var body: some View {
         ZStack {
@@ -110,7 +112,9 @@ struct SignInView: View {
                         .padding(.top, 20)
                 }
 
-
+                .navigationDestination(isPresented: $isLoggedIn) {
+                                HomeView()
+                }
                 
                 NavigationLink(destination: SignUpView()) {
                     Text("Don't have an account? Sign Up")
@@ -180,7 +184,7 @@ struct SignInView: View {
             }
 
             print("Logged in:", result?.user.email ?? "")
-            // Navigate to the main app
+            isLoggedIn = true
         }
     }
 
