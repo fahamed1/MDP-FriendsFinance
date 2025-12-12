@@ -1,6 +1,8 @@
 
 import SwiftUI
 import LocalAuthentication
+import FirebaseAuth
+
 
 struct SignInView: View {
 
@@ -87,18 +89,30 @@ struct SignInView: View {
                     }
                 }
 
-                // Sign In Button
-                Button {
-                    // Later: Add Firebase Sign In
-                    print("Sign In Pressed")
-                } label: {
-                    Text("SIGN IN")
+//                // Sign In Button
+//                Button {
+//                    // Later: Add Firebase Sign In
+//                    print("Sign In Pressed")
+//                } label: {
+//                    Text("SIGN IN")
+//                        .font(.system(size: 18, weight: .semibold))
+//                        .foregroundColor(.white)
+//                        .frame(width: 200, height: 50)
+//                        .background(Color(red: 0.35, green: 0.40, blue: 0.45))
+//                        .cornerRadius(25)
+//                }
+                
+                Button(action: {
+                    signIn()
+                }) {
+                    Text("Sign In")
                         .font(.system(size: 18, weight: .semibold))
                         .foregroundColor(.white)
                         .frame(width: 200, height: 50)
                         .background(Color(red: 0.35, green: 0.40, blue: 0.45))
                         .cornerRadius(25)
                 }
+                
                 .padding(.top, 10)
 
                 // Forgot password
@@ -108,6 +122,8 @@ struct SignInView: View {
                         .font(.system(size: 16))
                         .padding(.top, 20)
                 }
+
+
                 
                 NavigationLink(destination: SignUpView()) {
                     Text("Don't have an account? Sign Up")
@@ -151,10 +167,36 @@ struct SignInView: View {
     }
 
     func resetPassword() {
-        // Later: Add Firebase Auth code here
-        showError = true
-        errorMessage = "Password reset link sent (dummy)."
+        guard !email.isEmpty else {
+            showError = true
+            errorMessage = "Please enter your email."
+            return
+        }
+        
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error = error {
+                showError = true
+                errorMessage = error.localizedDescription
+            } else {
+                showError = false
+                errorMessage = "Password reset link sent to \(email)."
+            }
+        }
     }
+    
+    func signIn() {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                errorMessage = error.localizedDescription
+                showError = true
+                return
+            }
+
+            print("Logged in:", result?.user.email ?? "")
+            // Navigate to the main app
+        }
+    }
+
 }
 
 struct SignInView_Previews: PreviewProvider {

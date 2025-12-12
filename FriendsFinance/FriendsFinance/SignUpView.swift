@@ -1,10 +1,12 @@
 import SwiftUI
+import FirebaseAuth
+
 
 struct SignUpView: View {
     @Environment(\.dismiss) var dismiss
 
+    @State private var name = ""
     @State private var email = ""
-    @State private var phone = ""
     @State private var password = ""
     @State private var showError = false
     @State private var errorMessage: String = ""
@@ -52,17 +54,17 @@ struct SignUpView: View {
                 
                 VStack(spacing: 16) {
                     
+//                    TextField("Name", text: $name)
+//                        .padding()
+//                        .background(Color.white)
+//                        .cornerRadius(14)
+//                        .textInputAutocapitalization(.never)
+                    
                     TextField("Email Address", text: $email)
                         .padding()
                         .background(Color.white)
                         .cornerRadius(14)
                         .textInputAutocapitalization(.never)
-                    
-                    TextField("Phone Number", text: $phone)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(14)
-                        .keyboardType(.phonePad)
                     
                     SecureField("Password", text: $password)
                         .padding()
@@ -71,9 +73,24 @@ struct SignUpView: View {
                 }
                 .padding(.horizontal, 40)
                 
+//                Button(action: {
+//                    // TODO: Handle sign up logic
+//                    print("Signing up...")
+//                }) {
+//                    HStack {
+//                        Spacer()
+//                        Text("Create Account")
+//                            .font(.system(size: 18, weight: .semibold))
+//                            .foregroundColor(.white)
+//                            .frame(width: 200, height: 50)
+//                            .background(Color(red: 0.35, green: 0.40, blue: 0.45))
+//                            .cornerRadius(25)
+//                        Spacer()
+//                    }
+//    
+//                }
                 Button(action: {
-                    // TODO: Handle sign up logic
-                    print("Signing up...")
+                    createAccount()
                 }) {
                     HStack {
                         Spacer()
@@ -85,7 +102,6 @@ struct SignUpView: View {
                             .cornerRadius(25)
                         Spacer()
                     }
-    
                 }
                 .padding(.top, 10)
                 
@@ -96,6 +112,28 @@ struct SignUpView: View {
         .navigationBarBackButtonHidden(true)
         
     }
+    
+    func createAccount() {
+        guard !name.isEmpty, !email.isEmpty, !password.isEmpty else {
+            errorMessage = "Please fill out all fields."
+            showError = true
+            return
+        }
+
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            if let error = error {
+                errorMessage = error.localizedDescription
+                showError = true
+                return
+            }
+
+            // Account created successfully
+            print("User created:", result?.user.uid ?? "")
+
+            dismiss() // Go back to login screen
+        }
+    }
+
 }
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
