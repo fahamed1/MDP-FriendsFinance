@@ -1,18 +1,20 @@
 import SwiftUI
+import FirebaseFirestore
+
 
 struct FriendsView: View {
 
     @Environment(\.dismiss) var dismiss
 
-    @State private var friends: [String] = ["mehera@example.com", "farhat@gmail.com"]
+    @State private var friends: [String] = []
     @State private var showAddFriend = false
     @State private var newFriendEmail = ""
     @State private var showError = false
+    @State private var errorMessage = ""
 
     var body: some View {
         ZStack {
 
-            // Background matching your app
             Color(red: 0.75, green: 0.85, blue: 0.90)
                 .ignoresSafeArea()
 
@@ -20,15 +22,16 @@ struct FriendsView: View {
 
                 // Header
                 HStack {
-                    Button(action: { dismiss() }) {
-                        Image(systemName: "chevron.left")
-                            .font(.title3)
-                            .foregroundColor(.white)
-                    }
+//                    Button(action: { dismiss() }) {
+//                        Image(systemName: "chevron.left")
+//                            .font(.title3)
+//                            .foregroundColor(.white)
+//                    }
 
                     Text("Friends")
                         .font(.title2)
                         .foregroundColor(.white)
+                        .bold()
 
                     Spacer()
 
@@ -50,12 +53,16 @@ struct FriendsView: View {
                 // Friends list
                 ScrollView {
                     VStack(spacing: 12) {
+                        if friends.isEmpty {
+                            Text("No friends yet. Add some!")
+                                    .foregroundColor(.white)
+                                    .padding()
+                        }
                         ForEach(friends, id: \.self) { email in
                             HStack {
                                 Text(email)
                                     .font(.headline)
                                     .foregroundColor(.black)
-
                                 Spacer()
                             }
                             .padding()
@@ -72,20 +79,46 @@ struct FriendsView: View {
         }
         .navigationBarBackButtonHidden(true)
         .sheet(isPresented: $showAddFriend) {
-            AddFriendEmailSheet(
-                newFriendEmail: $newFriendEmail,
-                onAdd: {
-                    if newFriendEmail.isEmpty {
-                        showError = true
-                        return
+                    AddFriendEmailSheet(
+                        newFriendEmail: $newFriendEmail,
+                        onAdd: {
+                            let emailToAdd = newFriendEmail.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+                            
+                            guard !emailToAdd.isEmpty else {
+                                errorMessage = "Please enter a email."
+                                showError = true
+                                return
+                            }
+                            
+                            // Firestore query to check if the email exists
+                            let db = Firestore.firestore()
+                            db.collection("users")
+                                .whereField("email", isEqualTo: emailToAdd)
+                                .getDocuments { snapshot, error in
+                                    if let error = error {
+                                        print("Error fetching user: \(error.localizedDescription)")
+                                        errorMessage = "Error checking email."
+                                        showError = true
+                                        return
+                                    }
+                                    
+                                    if let documents = snapshot?.documents, !documents.isEmpty {
+                                        // User exists → add to friends list
+                                        if !friends.contains(emailToAdd) {
+                                            friends.append(emailToAdd)
+                                        }
+                                        newFriendEmail = ""
+                                        showAddFriend = false
+                                    } else {
+                                        // User not found
+                                        errorMessage = "User not found."
+                                        showError = true
+                                    }
                     }
-                    friends.append(newFriendEmail.lowercased())
-                    newFriendEmail = ""
-                    showAddFriend = false
                 }
             )
         }
-        .alert("Please enter an email", isPresented: $showError) {
+        .alert(errorMessage, isPresented: $showError) {
             Button("OK", role: .cancel) { }
         }
     }

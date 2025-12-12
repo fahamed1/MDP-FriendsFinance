@@ -1,5 +1,7 @@
 import SwiftUI
 import FirebaseAuth
+import FirebaseFirestore
+
 
 
 struct SignUpView: View {
@@ -119,7 +121,18 @@ struct SignUpView: View {
             }
 
             // Account created successfully
-            print("User created:", result?.user.uid ?? "")
+//            print("User created:", result?.user.uid ?? "")
+            let db = Firestore.firestore()
+            db.collection("users").document(result!.user.uid).setData([
+                "name": name,
+                "email": email.lowercased()
+            ]) { err in
+                    if let err = err {
+                        print("Error saving user: \(err)")
+                    } else {
+                        print("User saved in Firestore")
+                    }
+                }
 
             dismiss() // Go back to login screen
         }

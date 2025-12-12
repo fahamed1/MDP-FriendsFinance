@@ -113,7 +113,7 @@ struct SignInView: View {
                 }
 
                 .navigationDestination(isPresented: $isLoggedIn) {
-                                HomeView()
+                        MainTabView()
                 }
                 
                 NavigationLink(destination: SignUpView()) {
@@ -123,17 +123,21 @@ struct SignInView: View {
 
                 Spacer()
             }
+            .alert(errorMessage, isPresented: $showError) {
+                Button("OK", role: .cancel) { }
+            }
+
 
             // Error Alert
-            if showError {
-                VStack {
-                    Text(errorMessage)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(10)
-                }
-                .padding()
-            }
+//            if showError {
+//                VStack {
+//                    Text(errorMessage)
+//                        .padding()
+//                        .background(Color.white)
+//                        .cornerRadius(10)
+//                }
+//                .padding()
+//            }
         }
         .onAppear(perform: checkFaceID)
         .navigationBarBackButtonHidden(true)
@@ -176,10 +180,18 @@ struct SignInView: View {
     }
     
     func signIn() {
+        guard !email.isEmpty, !password.isEmpty else {
+                    errorMessage = "Please enter both email and password."
+                    showError = true
+                    return
+        }
+        
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 errorMessage = error.localizedDescription
                 showError = true
+                email = ""
+                password = ""
                 return
             }
 

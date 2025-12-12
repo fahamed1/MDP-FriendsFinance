@@ -41,6 +41,7 @@ struct MainTabView: View {
             }
         }
         .accentColor(.green)  // highlights selected tab
+        .navigationBarBackButtonHidden(true)
     }
 }
 
