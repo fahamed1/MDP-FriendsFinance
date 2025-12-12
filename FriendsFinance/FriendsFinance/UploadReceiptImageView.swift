@@ -27,5 +27,15 @@ struct UploadReceiptImageView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
+struct UploadReceiptImageView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {
+            UploadReceiptImageView()
+        }
+    }
+}
+
+
